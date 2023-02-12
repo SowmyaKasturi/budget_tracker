@@ -1,0 +1,102 @@
+{%extends 'base.html'%}
+{%block body%}
+<div class="container">
+    <h3 class="mt-5">Expenses</h3>
+    {% for i in expense%}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card shadow mb-3 bg-white rounded">
+                <div class="card-body">
+                <div class="row">
+                    <div class="col-md-2">{{i.date}}</div>
+                    <div class="col-md-2">{{i.expense}}</div>
+                    <div class="col-md-2">{{i.amount}}</div>
+                    <div class="col-md-2"><span class="badge badge-primary">{{i.cateogry}}</span></div>
+                    <div class="col-md-2">
+                        <a href="edit/{{i.id}}" class="btn btn-sm btn-success">Edit</a>
+                    </div>
+                    <div class="col-md-2">
+                        <a href="delete/{{i.id}}" class="btn btn-sm btn-danger">Delete</a>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {%endfor%}
+    
+    <div class="row">
+        <div class="col-md-6">
+            <h3 class="mt-5">Expense Breakdown</h3>
+            <div class="card shadow mb-3 bg-white rounded">
+                <div class="card-body">
+            <div class="row">
+                <div class="col-md-6"><b>Food</b></div>
+                <div id="food" class="col-md-6">{{total_f}}</div>
+            </div>
+            </div>
+            </div>
+            <div class="card shadow mb-3 bg-white rounded">
+            <div class="card-body">
+            <div class="row">
+                <div class="col-md-6"><b>Entertaiment</b></div>
+                <div id="entertainment" class="col-md-6">{{total_e}}</div>
+            </div></div></div>
+            <div class="card shadow mb-3 bg-white rounded">
+                <div class="card-body">
+            <div class="row">
+                <div class="col-md-6"><b>Business</b></div>
+                <div id="business" class="col-md-6">{{total_b}}</div>
+            </div>
+            </div></div>
+            <div class="card shadow mb-3 bg-white rounded">
+                <div class="card-body">
+            <div class="row">
+                <div class="col-md-6"><b>Other</b></div>
+                <div id="other" class="col-md-6">{{total_o}}</div>
+            </div>
+            </div></div>
+            <div class="card shadow mb-3 bg-white rounded">
+                <div class="card-body">
+            <div class="row">
+                <div class="col-md-6"><b>Total</b></div>
+                <div class="col-md-6">{{total}}</div>
+            </div>
+            </div></div>
+        </div>
+        <div class="col-md-6">
+            <div>
+                <canvas id="myChart"></canvas>
+            </div>
+            
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            
+            <script>
+                const ctx = document.getElementById('myChart');
+                let food = document.getElementById('food').innerHTML
+                let entertainment = document.getElementById('entertainment').innerHTML
+                let business = document.getElementById('business').innerHTML
+                let other = document.getElementById('other').innerHTML
+                new Chart(ctx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Food', 'Entertaiment', 'Business', 'Other'],
+                        datasets: [{
+                            label: '# of Votes',
+                            data: [food, entertainment, business, other],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            </script>
+        </div>
+    </div>
+</div>
+{%endblock%}
